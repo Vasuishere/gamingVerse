@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Team</title>
+</head>
+<body>
+    <h1>Create Your Team - Member {{ next_member_number }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" name="next">Next</button>
+        <button type="submit" name="submit">Submit</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Summary</title>
+</head>
+<body>
+    <h1>Team Summary</h1>
+    <a href="/team"> Back </a>
+    <ul>
+        {% for member in team_members %}
+            <li>
+                <strong>Name:</strong> {{ member.name }} <br>
+                <strong>Game:</strong> {{ member.game_name }} <br>
+                <strong>Game ID:</strong> {{ member.unique_game_id }} <br>
+                <a href="{% url 'edit_member' member.id %}">Edit</a> <!-- Edit button -->
+                <a href="{% url 'delete_member' member.id %}" onclick="return confirm('Are you sure you want to delete this member?')">Delete</a> <!-- Delete button -->
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'create_team' %}">Add New Member</a> <!-- Link to create a new team member -->
+</body>
+</html>
