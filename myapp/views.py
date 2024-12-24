@@ -27,6 +27,16 @@ def service(request):
 def team(request):
     data = TeamMember.objects.all
     form = TeamMemberForm()
+    if request.method == 'POST':
+        form = TeamMemberForm(request.POST)
+        if form.is_valid():
+            form.save()
+            
+        if 'submit' in request.POST:
+                return redirect('/team')  # Reload form for the next member
+        else:
+            return redirect('/team')
+        
     return render(request,"team.html",{"data":data,"form":form})
 
 def about(request):
@@ -60,12 +70,12 @@ def create_team(request):
 
 
 
-def team_summary(request):
-    # Example: Fetch the current team ID from session and display its members
-    team_id = request.session.get('team_id', 1)
-    team_members = TeamMember.objects.filter(team_id=team_id)
+# def team_summary(request,id):
+#     # Example: Fetch the current team ID from session and display its members
+#     id = request.session.get('id', 1)
+#     team_members = TeamMember.objects.filter(id=id)
 
-    return render(request, 'team_summary.html', {'team_members': team_members})
+#     return render(request, 'team_summary.html', {'team_members': team_members})
 
 
 from django.shortcuts import get_object_or_404, redirect

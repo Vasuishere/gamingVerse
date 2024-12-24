@@ -17,12 +17,9 @@ class TeamMember(models.Model):
     name = models.CharField(max_length=100, verbose_name="Name (Govt ID Proof)")
     game_name = models.CharField(max_length=50)
     unique_game_id = models.CharField(max_length=50)
-    team_id = models.IntegerField()  # To group members of a team
 
     def __str__(self):
         return self.name
-
-
 
 class Winner(models.Model):
     winner_team_image = models.FileField(upload_to='image/')

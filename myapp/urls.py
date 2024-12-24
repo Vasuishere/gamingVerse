@@ -32,7 +32,7 @@ urlpatterns = [
     path('service', views.service),
     path('team', views.team, name='team'),
     path('create_team', views.create_team, name='create_team'),
-    path('team-summary/', views.team_summary, name='team_summary'),
+    # path('team-summary/', views.team_summary, name='team_summary'),
     path('edit-member/<int:member_id>/', views.edit_member, name='edit_member'),
     path('delete-member/<int:member_id>/', views.delete_member, name='delete_member')
     
