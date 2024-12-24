@@ -27,3 +27,4 @@ class Winner(models.Model):
     winner_team_mode = models.CharField(max_length=50)
     winner_team_name = models.CharField(max_length=50)
     winner_team_game_win = models.CharField(max_length=50)
+    

@@ -103,3 +103,5 @@ def delete_member(request, id):
     team_member.delete()
     messages.success(request, "Team member deleted successfully.")
     return redirect('team')
+
+
