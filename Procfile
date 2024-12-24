@@ -1,1 +1,1 @@
-web: gunicorn DJANGOWEBAPP.wsgi
+web: gunicorn webapp.wsgi
