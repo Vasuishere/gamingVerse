@@ -31,7 +31,6 @@ def team(request):
         form = TeamMemberForm(request.POST)
         if form.is_valid():
             form.save()
-            
         if 'submit' in request.POST:
                 return redirect('/team')  # Reload form for the next member
         else:
@@ -98,11 +97,9 @@ def edit_member(request, member_id):
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages  # To show a success message after deletion
 
-def delete_member(request, member_id):
-    # Get the team member or return 404 if not found
-    team_member = get_object_or_404(TeamMember, id=member_id)
-    team_member.delete()  # Delete the member
-
-    # Optionally add a success message
+def delete_member(request, id):
+    print(f"Deleting team member with ID: {id}")
+    team_member = get_object_or_404(TeamMember, id=id)
+    team_member.delete()
     messages.success(request, "Team member deleted successfully.")
-    return redirect('team_summary')  # Redirect back to the summary page
+    return redirect('team')
