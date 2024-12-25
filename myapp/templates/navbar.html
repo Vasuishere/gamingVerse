@@ -18,10 +18,15 @@
                     <a href="quote" class="dropdown-item">Free Fire Tournaments </a>
                     <a href="team" class="dropdown-item">BGMI Tournaments</a>
                     <a href="about" class="dropdown-item">About</a>
+                    <a href="contact" class="dropdown-item">Contact</a>
                 </div>
             </div>
-            <a href="contact" class="nav-item nav-link">Contact</a>
+            <a href="" class="nav-item nav-link">Wallet : 100</a>
         </div>
-        <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Login<i class="fa fa-arrow-right ms-3"></i></a>
+        {% if request.session.isloggedin %}
+            <a href="logout" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Logout<i class="fa fa-arrow-right ms-3"></i></a>
+        {% else %}
+            <a href="/" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Login<i class="fa fa-arrow-right ms-3"></i></a>
+        {% endif %}
     </div>
 </nav>

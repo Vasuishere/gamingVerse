@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class Header(models.Model):
     header_title1 = models.CharField(max_length=50)
     header_title2 = models.CharField(max_length=50)
@@ -27,4 +26,13 @@ class Winner(models.Model):
     winner_team_mode = models.CharField(max_length=50)
     winner_team_name = models.CharField(max_length=50)
     winner_team_game_win = models.CharField(max_length=50)
+    
+class User(models.Model):
+    user_name = models.CharField(max_length=50)
+    user_lastname = models.CharField(max_length=50)
+    user_email = models.EmailField()
+    user_password = models.CharField(max_length=50)
+    
+class game(models.Model):
+    game_name = models.CharField(max_length=50)
     

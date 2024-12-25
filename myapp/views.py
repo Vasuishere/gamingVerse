@@ -1,13 +1,21 @@
 from django.shortcuts import render,redirect
+from django.contrib.auth import logout
 from .forms import TeamMemberForm
-from .models import Header, Tournament,TeamMember,Winner
+from .models import Header, Tournament,TeamMember,Winner,User,game
 
 # Create your views here.
 def index(request):
     data = Header.objects.all
     data1 = Tournament.objects.all
     data2 = Winner.objects.all
-    return render(request,"index.html",{"data":data,"data1":data1,"data2":data2})
+    data3 = game.objects.all
+    context = {
+        'data': data,
+        'data1': data1,
+        'data2': data2,
+        'data3': data3
+    }
+    return render(request,"index.html",context)
 
 def contact(request):
     return render(request,"contact.html")
@@ -105,3 +113,39 @@ def delete_member(request, id):
     return redirect('team')
 
 
+def login(request):
+    if request.session.get("isloggedin"):
+        return redirect("/index")
+    if request.POST:
+        user_email = request.POST["user_email"]
+        user_password = request.POST["user_password"]
+        user = User.objects.filter(user_email=user_email,user_password=user_password).count()
+        if user>0:
+            request.session['isloggedin'] = True
+            request.session['user_email'] = user_email
+            return redirect("/index")
+    return render(request,"login.html")
+
+
+def signup(request):
+    if request.POST:
+        user_name = request.POST['user_name']
+        user_email = request.POST['user_email']
+        user_password = request.POST['user_password']
+        obj = User(user_name=user_name,user_email=user_email,user_password=user_password)
+        obj.save()
+        return redirect("/")
+    return render(request,"signup.html")
+
+
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)
+
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+def logout_view(request):
+    if 'isloggedin' in request.session:
+        del request.session['isloggedin']  # Remove the session key
+    logout(request)  # Log out the user
+    return redirect('index')  # Redirect to the login page (or any desired URL)
