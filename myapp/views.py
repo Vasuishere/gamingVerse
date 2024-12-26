@@ -4,7 +4,8 @@ from .forms import TeamMemberForm
 from .models import Header, Tournament,TeamMember,Winner,User,game
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages  
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login as auth_login
 
 
 
@@ -101,22 +102,35 @@ def login(request):
     if request.POST:
         user_email = request.POST["user_email"]
         user_password = request.POST["user_password"]
-        user = User.objects.filter(user_email=user_email,user_password=user_password).count()
-        if user>0:
+        # Use `authenticate` to validate the credentials
+        user = authenticate(request, username=user_email, password=user_password)
+        if user is not None:
+            auth_login(request, user)
             request.session['isloggedin'] = True
             request.session['user_email'] = user_email
             return redirect("/index")
-    return render(request,"login.html")
+        else:
+            error_message = "Invalid email or password."
+            return render(request, "login.html", {"error_message": error_message})
+    return render(request, "login.html")
 
 def signup(request):
     if request.POST:
         user_name = request.POST['user_name']
+        user_lastname = request.POST['user_lastname']
         user_email = request.POST['user_email']
         user_password = request.POST['user_password']
-        obj = User(user_name=user_name,user_email=user_email,user_password=user_password)
-        obj.save()
+        # Create a new user with the email as the username
+        user = User.objects.create_user(
+            username=user_email,
+            email=user_email,
+            password=user_password,
+            first_name=user_name,
+            last_name=user_lastname
+        )
+        user.save()
         return redirect("/")
-    return render(request,"signup.html")
+    return render(request, "signup.html")
 
 def custom_404_view(request, exception):
     return render(request, '404.html', status=404)
@@ -126,23 +140,3 @@ def logout_view(request):
     request.session.pop('isloggedin', None)
     logout(request)  # Django's built-in logout function
     return redirect('index')
-
-
-
-# from django.shortcuts import render, redirect
-# from .models import User 
-
-def use_data(request):
-    if request.user.is_authenticated:
-        user = User.objects.get(user_email=request.user.email) 
-        user_name = user.user_name
-        return render(request, 'my_webpage.html', {'user_name': user_name})
-    else:
-        return redirect('login_page')
-    
-    
-@login_required  
-def profile_view(request):
-    user = request.user  
-    wallet_balance = user.wallet_balance  
-    return render(request, 'index.html', {'wallet_balance': wallet_balance})
