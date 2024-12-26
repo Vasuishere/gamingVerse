@@ -32,6 +32,7 @@ class User(models.Model):
     user_lastname = models.CharField(max_length=50)
     user_email = models.EmailField()
     user_password = models.CharField(max_length=50)
+    wallet_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     
 class game(models.Model):
     game_name = models.CharField(max_length=50)
